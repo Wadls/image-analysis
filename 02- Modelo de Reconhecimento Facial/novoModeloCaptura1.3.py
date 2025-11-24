@@ -5,7 +5,7 @@ import numpy as np
 classificador = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 classificadorOlhos = cv2.CascadeClassifier('haarcascade_eye.xml')
 # 1. Na Variável Vídeo é atribuída o vídeo a uma variavel, pode ser o vídeo de uma webcam tbm
-video = cv2.VideoCapture('Video02.0.mp4')
+video = cv2.VideoCapture('Video01.mp4')
 amostra = 1 #Numero da primeira amostra, que vai ser incrementada no programa
 numeroAmostra = 25 #Valor Mínimo de amostras a serem coletadas para treinar o modelo
 id = input('Digite O identificador da Pessoa: ')
@@ -45,7 +45,7 @@ else:
                     #if np.average(imagemCinza) > 110:
                         imagemFace = cv2.resize(imagemCinza[y:y+a,x:x+l],(largura,altura))
                         cv2.imwrite('fotos/pessoa.'+str(id)+'.'+str(amostra)+'.jpg',imagemFace)
-                        print('[foto'+str(amostra)+'capturada com sucesso]')
+                        print('[foto ' +str(amostra)+' capturada com sucesso]')
                         amostra+=1
                 
             

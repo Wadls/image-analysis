@@ -1,1 +1,1 @@
-scaleFactor=1.5,
+confianca

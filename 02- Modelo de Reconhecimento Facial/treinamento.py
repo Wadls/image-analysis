@@ -16,8 +16,13 @@ def getImagemComId():
         id = int(os.path.split(caminhoImagem)[-1].split('.')[1])
         ids.append(id)
         faces.append(imagemFace)
+<<<<<<< HEAD
         cv2.imshow('Face',imagemFace) #Caso queira ver na prática oq ele vai, é só liberar
         cv2.waitKey(30) #essas duas linhas de código
+=======
+        #cv2.imshow('Face',imagemFace) Caso queira ver na prática oq ele vai, é só liberar
+        #cv2.waitKey(30) essas duas linhas de código
+>>>>>>> aabd3e139b548b8cdf17f894d3a4d28b8a35dcd6
     return np.array(ids), faces
 
 ids, faces = getImagemComId()

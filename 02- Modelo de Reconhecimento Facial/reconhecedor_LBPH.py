@@ -6,8 +6,13 @@ classificadorOlhos = cv2.CascadeClassifier('haarcascade_eye.xml')
 reconhecedor = cv2.face.LBPHFaceRecognizer_create()
 reconhecedor.read('classificadorLBPH.yml')
 font = cv2.FONT_HERSHEY_COMPLEX_SMALL
+<<<<<<< HEAD
 video = cv2.VideoCapture('Video04.mp4')
 largura,altura = 200,200
+=======
+video = cv2.VideoCapture('Video02.mp4')
+largura,altura = 500,500
+>>>>>>> aabd3e139b548b8cdf17f894d3a4d28b8a35dcd6
 
 if not video.isOpened():
     print("Erro ao abrir o vídeo! Verifique o caminho ou o arquivo.")
@@ -29,12 +34,21 @@ else:
                 imagemFace = cv2.resize(imagemCinza[y:y+a,x:x+l],(largura,altura))
                 cv2.rectangle(regiao,(ox,oy),(ox + ol, oy + oa), (0,255,0), 2)
                 id, confianca = reconhecedor.predict(imagemFace)
+<<<<<<< HEAD
                 nome = "Unknow"
                 if id == 1:
                     nome = 'Mount'
                 if id == 2:
                     nome = 'Calvo Aleatorio'
                 
+=======
+                if id == 1:
+                    nome = 'Mount'
+                elif id == 2:
+                    nome = 'Calvo Aleatorio'
+                else:
+                    nome = "Unknow"
+>>>>>>> aabd3e139b548b8cdf17f894d3a4d28b8a35dcd6
                 
                 cv2.putText(frame,nome,(x+50,y+(a+30)), font,2,(0,0,255))
                     

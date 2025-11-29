@@ -1,13 +1,15 @@
 import cv2
-#Nesse Sistema, ele tira fotos quando se aperta a tecla 'Q', ele tira múltiplas fotos e insere na pasrta fotos
+import numpy as np
+#É a mesma versão da 1.3, Porém o objetivo desse sistema é melhorar a sua capacidade de reconhecer faces, usando o haarcascade eyes
 
 classificador = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+classificadorOlhos = cv2.CascadeClassifier('haarcascade_eye.xml')
 # 1. Na Variável Vídeo é atribuída o vídeo a uma variavel, pode ser o vídeo de uma webcam tbm
-video = cv2.VideoCapture('Video02.mp4')
+video = cv2.VideoCapture('Video01.mp4')
 amostra = 1 #Numero da primeira amostra, que vai ser incrementada no programa
 numeroAmostra = 25 #Valor Mínimo de amostras a serem coletadas para treinar o modelo
-id = input('Digite O identificador da Pessoa')
-largura,altura = 500,500
+id = input('Digite O identificador da Pessoa: ')
+largura,altura = 200,200
 
 # Verifica se o vídeo abriu corretamente
 if not video.isOpened():
@@ -27,17 +29,25 @@ else:
         imagemCinza = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         facesDetectadas = classificador.detectMultiScale(imagemCinza,
                                                          #scaleFac+tor=1.5, Funciona pra WebCam, mas não posso usar em um vídeo, pois vai ficar super acelerado
-                                                         minSize=(100,100))
+                                                         minSize=(50,50))
 
         # 6. Desenha os retângulos no 'frame' original (colorido)
         for (x, y, l, a) in facesDetectadas:
             cv2.rectangle(frame, (x, y), (x + l, y + a), (0, 255, 0), 2)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                imagemFace = cv2.resize(imagemCinza[y:y+a,x:x+l],(largura,altura))
-                cv2.imwrite('fotos/pessoa.'+str(id)+'.'+str(amostra)+'.jpg',imagemFace)
-                print('[foto'+str(amostra)+'capturada com sucesso]')
-                amostra+=1
-        
+            regiao = frame[y:y + a,x:x + l]
+            regiaoCinzaOlho= cv2.cvtColor(regiao,cv2.COLOR_BGR2GRAY)
+            olhosDetectados = classificadorOlhos.detectMultiScale(regiaoCinzaOlho)
+            
+            for (ox,oy,ol,oa) in olhosDetectados:
+                cv2.rectangle(regiao,(ox,oy),(ox + ol, oy + oa), (0,255,0), 2)
+                
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    #if np.average(imagemCinza) > 110:
+                        imagemFace = cv2.resize(imagemCinza[y:y+a,x:x+l],(largura,altura))
+                        cv2.imwrite('fotos/pessoa.'+str(id)+'.'+str(amostra)+'.jpg',imagemFace)
+                        print('[foto ' +str(amostra)+' capturada com sucesso]')
+                        amostra+=1
+                
             
 
         cv2.imshow('Detecção Facial', frame)

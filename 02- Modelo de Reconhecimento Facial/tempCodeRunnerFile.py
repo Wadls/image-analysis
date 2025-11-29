@@ -1,1 +1,0 @@
-scaleFactor=1.5,
